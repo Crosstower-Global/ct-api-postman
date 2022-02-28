@@ -117,4 +117,4 @@ dist
 .pnp.*
 
 .idea
-cti-pg-postman.iml
+ct-apis-postman.iml
