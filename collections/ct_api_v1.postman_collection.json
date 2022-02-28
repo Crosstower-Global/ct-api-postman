@@ -1,0 +1,3308 @@
+{
+	"info": {
+		"_postman_id": "4cdfd03c-cd22-457d-be95-4d3eb7e422d4",
+		"name": "CTI APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Ticker Data",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/ticker/list?conversion_rate_round_off=true&page=1&pageSize=100&search=bitcoin",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"ticker",
+								"list"
+							],
+							"query": [
+								{
+									"key": "conversion_rate_round_off",
+									"value": "true",
+									"description": "boolean"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "int"
+								},
+								{
+									"key": "pageSize",
+									"value": "100",
+									"description": "int"
+								},
+								{
+									"key": "search",
+									"value": "bitcoin",
+									"description": "string"
+								}
+							]
+						},
+						"description": "List of all tradable currencies and their pricing data.  \n  \nThis API can be used to get `currency_id` which you'll need in \\`order\\` apis and \\`deposit and withdrawal\\` apis."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "User Check",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const secretKey = pm.environment.get(\"api_secret\");",
+									"",
+									"const payload = `${String(pm.request.method).toUpperCase()}${String(pm.request.url).replace(\"{{base_url}}/\", \"\")}${JSON.stringify(JSON.parse(pm.request.body))}`",
+									"",
+									"console.log(\"Request Payload = \", payload)",
+									"",
+									"const checksum = CryptoJS.HmacSHA512(payload, secretKey) + ''",
+									"pm.environment.set(\"checksum\", checksum)",
+									"console.log(\"Checksum = \"+checksum);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"description": "(Required) HMAC512(METHOD+PATH+BODY, API SECRET)",
+								"key": "checksum",
+								"value": "{{checksum}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user1@domain.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user-check",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user-check"
+							]
+						},
+						"description": "To check if user is already registered with CTI or not, to decide if you need to register this user with us or just need login."
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "1cfb484b-20bf-4af2-88e0-7d8e086d4d7e"
+									},
+									{
+										"description": "(Required) HMAC512(METHOD+PATH+BODY, API SECRET)",
+										"key": "checksum",
+										"value": "<checksum>"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"user1@domain.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/user-check",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"user-check"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [],
+							"cookie": [],
+							"body": "1"
+						},
+						{
+							"name": "422",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "1cfb484b-20bf-4af2-88e0-7d8e086d4d7e"
+									},
+									{
+										"description": "(Required) HMAC512(METHOD+PATH+BODY, API SECRET)",
+										"key": "checksum",
+										"value": "<checksum>"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"user1@domain.com\" //email\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/user-check",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"user-check"
+									]
+								}
+							},
+							"status": "Unprocessable Content",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"message\": \"The given data was invalid.\",\n    \"errors\": {\n        \"email\": [\n            \"The email field is required.\"\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "User Registration",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const secretKey = pm.environment.get(\"api_secret\");",
+									"",
+									"const payload = `${String(pm.request.method).toUpperCase()}${String(pm.request.url).replace(\"{{base_url}}/\", \"\")}${JSON.stringify(JSON.parse(pm.request.body))}`",
+									"",
+									"console.log(\"Request Payload = \", payload)",
+									"",
+									"const checksum = CryptoJS.HmacSHA512(payload, secretKey) + ''",
+									"pm.environment.set(\"checksum\", checksum)",
+									"console.log(\"Checksum = \"+checksum);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"description": "(Required) HMAC512(METHOD+PATH+BODY, API SECRET)",
+								"key": "checksum",
+								"value": "{{checksum}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user1@domain.com\",\n    \"mobile_number\": 9044472421,\n    \"first_name\": \"first name\",\n    \"last_name\": \"last name\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						},
+						"description": "Register user with CTI using Email and Phone number"
+					},
+					"response": [
+						{
+							"name": "201",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "1cfb484b-20bf-4af2-88e0-7d8e086d4d7e"
+									},
+									{
+										"description": "(Required) HMAC512(METHOD+PATH+BODY, API SECRET)",
+										"key": "checksum",
+										"value": "0d4cb8c6703da6e7ee676cb3ad87d4b01f9416fea5069f8688fe50150305f31ba012af14a9385458f549592ceb2f8fe5f849bbd124f03ea3fe98744362110e91"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"user1@domain.com\",\n    \"mobile_number\": 9044472421,\n    \"first_name\": \"first name\",\n    \"last_name\": \"last name\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/auth/register",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"email\": \"user1@domain.com\",\n        \"user_name\": \"user1@domain.com\",\n        \"delete_flag\": false,\n        \"role\": \"USER\",\n        \"email_verified\": true,\n        \"mobile_number_verified\": true,\n        \"is_login_active\": true,\n        \"is_trading_active\": true,\n        \"is_withdrawal_active\": true,\n        \"id\": 25296\n    }\n}"
+						},
+						{
+							"name": "422",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "1cfb484b-20bf-4af2-88e0-7d8e086d4d7e"
+									},
+									{
+										"description": "(Required) HMAC512(METHOD+PATH+BODY, API SECRET)",
+										"key": "checksum",
+										"value": "0d4cb8c6703da6e7ee676cb3ad87d4b01f9416fea5069f8688fe50150305f31ba012af14a9385458f549592ceb2f8fe5f849bbd124f03ea3fe98744362110e91"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"user1@domain.com\", \n    \"mobile_number\": 9044472421, \n    \"first_name\": \"first name\", \n    \"last_name\": \"last name\" \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/auth/register",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Unprocessable Content",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"message\": \"The given data was invalid.\",\n    \"errors\": {\n        \"email\": [\n            \"The email has already been taken.\"\n        ],\n        \"mobile_number\": [\n            \"The mobile number has already been taken.\"\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Token",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const secretKey = pm.environment.get(\"api_secret\");",
+									"",
+									"const payload = `${String(pm.request.method).toUpperCase()}${String(pm.request.url).replace(\"{{base_url}}/\", \"\")}${JSON.stringify(JSON.parse(pm.request.body))}`",
+									"",
+									"console.log(\"Request Payload = \", payload)",
+									"",
+									"const checksum = CryptoJS.HmacSHA512(payload, secretKey) + ''",
+									"pm.environment.set(\"checksum\", checksum)",
+									"console.log(\"Checksum = \"+checksum);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "checksum",
+								"value": "{{checksum}}",
+								"description": "(Required) HMAC512(METHOD+PATH+BODY, API SECRET)",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user@domain.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/create-token",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"create-token"
+							]
+						},
+						"description": "Generate Auth Token for a registered user on CTI, for further calls"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "1cfb484b-20bf-4af2-88e0-7d8e086d4d7e"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "checksum",
+										"value": "d06afa3b3911c7bede0798f245a3b2e69e64e871db3d08e2de464811b115ac4cdfbd6fa686a27b017225c240a2961de12fbc704dfdb7ec04e43bea41fba609bd",
+										"description": "(Required) HMAC512(METHOD+PATH+BODY, API SECRET)",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"user@domain.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/auth/create-token",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"auth",
+										"create-token"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"access-token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyQGRvbWFpbi5jb20iLCJBdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiVVNFUiJ9XSwiaWF0IjoxNjM5NDgzMjAwLCJleHAiOjE2Mzk1Njk2MDB9.ceLwYmTsLDnzHt91i82t0i0AvOoFx8XcaW4noB8fJUeEDRbechsdOERyKCeR1Nt_LSVllV85gx3GBHG9xOUsfw\",\n        \"refresh_token\": \"59a4d2ad-fc49-43f5-921b-e0390de9164e\"\n    }\n}"
+						},
+						{
+							"name": "400",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "1cfb484b-20bf-4af2-88e0-7d8e086d4d7e"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "checksum",
+										"value": "d06afa3b3911c7bede0798f245a3b2e69e64e871db3d08e2de464811b115ac4cdfbd6fa686a27b017225c240a2961de12fbc704dfdb7ec04e43bea41fba609bd",
+										"description": "(Required) HMAC512(METHOD+PATH+BODY, API SECRET)",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"user@domain1.com\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/auth/create-token",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"create-token"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Invalid checksum provided\"\n}"
+						},
+						{
+							"name": "404",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "1cfb484b-20bf-4af2-88e0-7d8e086d4d7e"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "checksum",
+										"value": "2591e0d64ccb0a49ba402e60d70d34a91938c70f8c2c880d0dc31088c6cfd5105fd8e6431e9c03689ea3f8dacd797e54d5dd9ae8c16dfe6d3f1d926988dd2366",
+										"description": "(Required) HMAC512(METHOD+PATH+BODY, API SECRET)",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"user@domain1.com\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/auth/create-token",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"create-token"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"message\": \"No query results for users.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Bank Add",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const secretKey = pm.environment.get(\"api_secret\");",
+									"",
+									"const payload = `${String(pm.request.method).toUpperCase()}${String(pm.request.url).replace(\"{{base_url}}/\", \"\")}${JSON.stringify(JSON.parse(pm.request.body))}`",
+									"",
+									"console.log(\"Request Payload = \", payload)",
+									"",
+									"const checksum = CryptoJS.HmacSHA512(payload, secretKey) + ''",
+									"pm.environment.set(\"checksum\", checksum)",
+									"console.log(\"Checksum = \"+checksum);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "checksum",
+								"value": "{{checksum}}",
+								"description": "(Required) HMAC512(METHOD+PATH+BODY, API SECRET)",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"accountHolderName\": \"Some name\",\n  \"bankName\": \"SBI\",\n  \"accountNumber\": \"1234567892\",\n  \"ifscCode\": \"SBIN001675\",\n  \"accountType\": \"SAVINGS\",\n  \"mobileNumber\": \"+918765345623\",\n  \"email\": \"user@domain.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/bank/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"bank",
+								"add"
+							]
+						},
+						"description": "Add Verified bank account details of user"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "{{X-CTI-APIKEY}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "checksum",
+										"value": "173cf224ce39e16c1dabe06da818979b734e9f17dea47094a2cc0639f10e97a71032178c125c289ff5c6d43197fca3dbdc46bac3b19152e73709d10a73951ed8",
+										"description": "(Required) HMAC512(METHOD+PATH+BODY, API SECRET)",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"accountHolderName\": \"Some name\",\n  \"bankName\": \"SBI\",\n  \"accountNumber\": \"1234567892\",\n  \"ifscCode\": \"SBIN001675\",\n  \"accountType\": \"SAVINGS\",\n  \"mobileNumber\": \"+918765345623\",\n  \"email\": \"user@domain.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/bank/add",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"bank",
+										"add"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [],
+							"cookie": [],
+							"body": "Ok"
+						},
+						{
+							"name": "400",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "{{X-CTI-APIKEY}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"accountHolderName\": \"Some name\",\n  \"bankName\": \"SBI\",\n  \"accountNumber\": \"1234567892\",\n  \"ifscCode\": \"SBIN001675\",\n  \"accountType\": \"SAVINGS\",\n  \"mobileNumber\": \"+918765345623\",\n  \"email\": \"user@domain.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/bank/add",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"bank",
+										"add"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Invalid checksum provided\"\n}"
+						},
+						{
+							"name": "422",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "{{X-CTI-APIKEY}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "checksum",
+										"value": "7b60f35713e4716a09f61dd5c8857441a9c8d3b3ffd959d02eaa7e4aa5b4ac0448b95e9096d411e08c5750176b34ba1d85ee2a375832d3486674269849d85969",
+										"description": "(Required) HMAC512(METHOD+PATH+BODY, API SECRET)",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"accountHolderName\": \"Some name\",\n  \"bankName\": \"SBI\",\n  \"accountNumber\": \"1234567891\",\n  \"ifscCode\": \"SBIN001675\",\n  \"accountType\": \"SAVINGS\",\n  \"mobileNumber\": \"+918765345623\",\n  \"email\": \"user@domain.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/bank/add",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"bank",
+										"add"
+									]
+								}
+							},
+							"status": "Unprocessable Content",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"message\": \"The given data was invalid.\",\n    \"errors\": {\n        \"accountNumber\": [\n            \"The account number has already been taken.\"\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Kyc Add",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const secretKey = pm.environment.get(\"api_secret\");",
+									"",
+									"const payload = `${String(pm.request.method).toUpperCase()}${String(pm.request.url).replace(\"{{base_url}}/\", \"\")}${JSON.stringify(JSON.parse(pm.request.body))}`",
+									"",
+									"console.log(\"Request Payload = \", payload)",
+									"",
+									"const checksum = CryptoJS.HmacSHA512(payload, secretKey) + ''",
+									"pm.environment.set(\"checksum\", checksum)",
+									"console.log(\"Checksum = \"+checksum);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "checksum",
+								"value": "{{checksum}}",
+								"description": "(Required) HMAC512(METHOD+PATH+BODY, API SECRET)",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"poi\": {\n    \"name\": \"string\",\n    \"dob\": \"string\",\n    \"panCardNumber\": \"string1\",\n    \"panCardImageUrl\": \"string\"\n  },\n  \"poa\": {\n    \"poaType\": \"PAN Card\",\n    \"poaNumber\": \"string\",\n    \"address\": \"string\",\n    \"pincode\": \"string\",\n    \"gender\": \"string\",\n    \"poaFrontImageUrl\": \"string\",\n    \"poaBackImageUrl\": \"string\"\n  },\n  \"selfie\": {\n    \"selfieImageUrl\": \"string\"\n  },\n  \"email\": \"user1@domain.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/kyc/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"kyc",
+								"add"
+							]
+						},
+						"description": "Add kyc Details of User"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "1cfb484b-20bf-4af2-88e0-7d8e086d4d7e"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "checksum",
+										"value": "b54cffd410a758d9febeb05e33ddb04d7c23f0c206d221e27a5999338d74fe0e520fa8e88f0a2effce93569502d7ed596b0dc037aa3733541b112f672a5debae",
+										"description": "(Required) HMAC512(METHOD+PATH+BODY, API SECRET)",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"poi\": {\n    \"name\": \"string\",\n    \"dob\": \"string\",\n    \"panCardNumber\": \"string1\",\n    \"panCardImageUrl\": \"string\"\n  },\n  \"poa\": {\n    \"poaType\": \"PAN Card\",\n    \"poaNumber\": \"string\",\n    \"address\": \"string\",\n    \"pincode\": \"string\",\n    \"gender\": \"string\",\n    \"poaFrontImageUrl\": \"string\",\n    \"poaBackImageUrl\": \"string\"\n  },\n  \"selfie\": {\n    \"selfieImageUrl\": \"string\"\n  },\n  \"email\": \"user1@domain.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/kyc/add",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"kyc",
+										"add"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [],
+							"cookie": [],
+							"body": "Ok"
+						},
+						{
+							"name": "422",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "1cfb484b-20bf-4af2-88e0-7d8e086d4d7e"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "checksum",
+										"value": "b54cffd410a758d9febeb05e33ddb04d7c23f0c206d221e27a5999338d74fe0e520fa8e88f0a2effce93569502d7ed596b0dc037aa3733541b112f672a5debae",
+										"description": "(Required) HMAC512(METHOD+PATH+BODY, API SECRET)",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"poi\": {\n    \"name\": \"string\", \n    \"dob\": \"string\", \n    \"panCardNumber\": \"string1\", \n    \"panCardImageUrl\": \"string\" \n  },\n  \"poa\": {\n    \"poaType\": \"PAN Card\", \n    \"poaNumber\": \"string\", \n    \"address\": \"string\", \n    \"pincode\": \"string\", \n    \"gender\": \"string\", \n    \"poaFrontImageUrl\": \"string\", \n    \"poaBackImageUrl\": \"string\" \n  },\n  \"selfie\": {\n    \"selfieImageUrl\": \"string\" \n  },\n  \"email\": \"user1@domain.com\" \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/kyc/add",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"kyc",
+										"add"
+									]
+								}
+							},
+							"status": "Unprocessable Content",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"message\": \"The given data was invalid.\",\n    \"errors\": {\n        \"poi.panCardNumber\": [\n            \"The poi.pan card number has already been taken.\"\n        ]\n    }\n}"
+						},
+						{
+							"name": "400",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "1cfb484b-20bf-4af2-88e0-7d8e086d4d7e"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "checksum",
+										"value": "b54cffd410a758d9febeb05e33ddb04d7c23f0c206d221e27a5999338d74fe0e520fa8e88f0a2effce93569502d7ed596b0dc037aa3733541b112f672a5debae",
+										"description": "(Required) HMAC512(METHOD+PATH+BODY, API SECRET)",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"poi\": {\n    \"name\": \"string\", \n    \"dob\": \"string\", \n    \"panCardNumber\": \"string1\", \n    \"panCardImageUrl\": \"string\" \n  },\n  \"poa\": {\n    \"poaType\": \"PAN Card\", \n    \"poaNumber\": \"string\", \n    \"address\": \"string\", \n    \"pincode\": \"string\", \n    \"gender\": \"string\", \n    \"poaFrontImageUrl\": \"string\", \n    \"poaBackImageUrl\": \"string\" \n  },\n  \"selfie\": {\n    \"selfieImageUrl\": \"string\" \n  },\n  \"email\": \"user1@domain.com\" \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/kyc/add",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"kyc",
+										"add"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Invalid checksum provided\"\n}"
+						}
+					]
+				},
+				{
+					"name": "User Info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/user",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user"
+							]
+						},
+						"description": "Users All Details"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/user",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"firstName\": \"CrossTest\",\n        \"lastName\": \"Account\",\n        \"mobileNumber\": null,\n        \"email\": \"crosstest256@load.com\",\n        \"dob\": null,\n        \"gender\": null,\n        \"address1\": null,\n        \"address2\": null,\n        \"city\": null,\n        \"state\": null,\n        \"country\": null,\n        \"pincode\": null,\n        \"two_fa\": true,\n        \"profile_image\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/kyc/48-Selfie-1624274560123.jpg\",\n        \"bank_verified\": true,\n        \"nominee_name\": null,\n        \"nominee_dob\": null,\n        \"relationship\": null,\n        \"identity_document\": \"PAN Card\",\n        \"address_document\": \"Aadhaar Card\",\n        \"poi_poa_match\": false,\n        \"poi_name\": null,\n        \"poa_name\": null,\n        \"mobile_number_verified\": true,\n        \"kyc_completion_status\": true,\n        \"bank_account_completion_status\": true\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "User Portfolio",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/user/portfolio?chartFilter=ONE_WEEK&search=&zero_balance=false",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"portfolio"
+							],
+							"query": [
+								{
+									"key": "chartFilter",
+									"value": "ONE_WEEK",
+									"description": "enum(ONE_MONTH,ONE_WEEK,ONE_YEAR)"
+								},
+								{
+									"key": "search",
+									"value": "",
+									"description": "string"
+								},
+								{
+									"key": "zero_balance",
+									"value": "false",
+									"description": "boolean"
+								}
+							]
+						},
+						"description": "Users Current Portfolio with all calculation"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/user/portfolio?chartFilter=ONE_WEEK&search=bitcoin&sortBy=balance&sortOrder=desc&zero_balance=false",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"user",
+										"portfolio"
+									],
+									"query": [
+										{
+											"key": "chartFilter",
+											"value": "ONE_WEEK"
+										},
+										{
+											"key": "search",
+											"value": "bitcoin"
+										},
+										{
+											"key": "sortBy",
+											"value": "balance"
+										},
+										{
+											"key": "sortOrder",
+											"value": "desc"
+										},
+										{
+											"key": "zero_balance",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"balance\": 4962.830475289312625,\n        \"estimated_invested_amount_in_inr\": 0,\n        \"chart\": [\n            {\n                \"date\": \"2021-12-08\",\n                \"balance\": 1477746.1\n            },\n            {\n                \"date\": \"2021-12-09\",\n                \"balance\": 1483058.9\n            },\n            {\n                \"date\": \"2021-12-10\",\n                \"balance\": 1488154.4\n            },\n            {\n                \"date\": \"2021-12-13\",\n                \"balance\": 1493274.5\n            },\n            {\n                \"date\": \"2021-12-14\",\n                \"balance\": 1498242\n            }\n        ],\n        \"allocation\": [\n            {\n                \"asset_name\": \"INR\",\n                \"full_name\": \"Rupees\",\n                \"image_url\": \"/currency_image/INR.png\",\n                \"percentage\": 28,\n                \"balance\": 1380.47,\n                \"balance_inr\": 1380.47\n            },\n            {\n                \"asset_name\": \"KNC\",\n                \"full_name\": \"Kyber Network\",\n                \"image_url\": \"/currency_image/KNC.webp\",\n                \"percentage\": 2,\n                \"balance\": 1,\n                \"balance_inr\": 93.6666223\n            },\n            {\n                \"asset_name\": \"BAL\",\n                \"full_name\": \"Balancer\",\n                \"image_url\": \"/currency_image/BAL.webp\",\n                \"percentage\": 13,\n                \"balance\": 0.615,\n                \"balance_inr\": 648.243755505\n            },\n            {\n                \"asset_name\": \"AAVE\",\n                \"full_name\": \"Aave\",\n                \"image_url\": \"/currency_image/AAVE.webp\",\n                \"percentage\": 13,\n                \"balance\": 0.051,\n                \"balance_inr\": 642.45296343\n            },\n            {\n                \"asset_name\": \"BTC\",\n                \"full_name\": \"Bitcoin\",\n                \"image_url\": \"/currency_image/BTC.webp\",\n                \"percentage\": 42,\n                \"balance\": 0.00057801,\n                \"balance_inr\": 2092.15998927738\n            }\n        ],\n        \"table\": []\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Order Symbols List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/order/symbols/list?currency_id=16&side=BUY&type=FIAT",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"symbols",
+								"list"
+							],
+							"query": [
+								{
+									"key": "currency_id",
+									"value": "16",
+									"description": "int ( all currency ids), currency id from `Ticker Data` api"
+								},
+								{
+									"key": "side",
+									"value": "BUY",
+									"description": "string (BUY, SELL, CONVERT)"
+								},
+								{
+									"key": "type",
+									"value": "FIAT",
+									"description": "string ( CRYPTO, FIAT, ALL)"
+								}
+							]
+						},
+						"description": "List of all symbols user can trade with for buy, sell and convert"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/order/symbols/list?currency_id=16&side=BUY&type=FIAT",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"order",
+										"symbols",
+										"list"
+									],
+									"query": [
+										{
+											"key": "currency_id",
+											"value": "16",
+											"description": "currency id from `Ticker Data` api"
+										},
+										{
+											"key": "side",
+											"value": "BUY"
+										},
+										{
+											"key": "type",
+											"value": "FIAT"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"currency_id\": 19,\n            \"symbol_id\": 0,\n            \"currency_name\": \"TUSD\",\n            \"full_name\": \"TrueUSD\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/TUSD.webp\",\n            \"unit_value\": 47786.232671362705531827399542399437137873974279500544071197509765625,\n            \"quantity_increment\": 0.00001,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 14,\n            \"symbol_id\": 0,\n            \"currency_name\": \"USDC\",\n            \"full_name\": \"USD Coin\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/USDC.webp\",\n            \"unit_value\": 47651.0196953645087809393649132261305823021757532842457294464111328125,\n            \"quantity_increment\": 0.00001,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 15,\n            \"symbol_id\": 0,\n            \"currency_name\": \"USDT20\",\n            \"full_name\": \"Tether ERC20\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/USDT20.webp\",\n            \"unit_value\": 56518.63178324624710150602866463864781820802818401716649532318115234375,\n            \"quantity_increment\": 0.00001,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 9,\n            \"symbol_id\": 0,\n            \"currency_name\": \"MANA\",\n            \"full_name\": \"Decentraland\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/MANA.webp\",\n            \"unit_value\": 0.000067418440799100883309434074398824865426149699487723410129547119140625,\n            \"quantity_increment\": 1,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 27,\n            \"symbol_id\": 0,\n            \"currency_name\": \"DAI\",\n            \"full_name\": \"Dai\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/DAI.webp\",\n            \"unit_value\": 0.00002143738079971410334248938141243900901145025272853672504425048828125,\n            \"quantity_increment\": 0.01,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 38,\n            \"symbol_id\": 0,\n            \"currency_name\": \"SKL\",\n            \"full_name\": \"SKALE Network\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/SKL.webp\",\n            \"unit_value\": 0.0000041914413599441014232962750100941473618831878411583602428436279296875,\n            \"quantity_increment\": 0.1,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 24,\n            \"symbol_id\": 0,\n            \"currency_name\": \"ETH\",\n            \"full_name\": \"Ethereum\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/ETH.webp\",\n            \"unit_value\": 0.080973928798920102422707217350306141412374927313067018985748291015625,\n            \"quantity_increment\": 0.001,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 11,\n            \"symbol_id\": 0,\n            \"currency_name\": \"REN\",\n            \"full_name\": \"Ren\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/REN.webp\",\n            \"unit_value\": 0.0000106823882398575358099695304346654634031210662215016782283782958984375,\n            \"quantity_increment\": 1,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 48,\n            \"symbol_id\": 0,\n            \"currency_name\": \"STC\",\n            \"full_name\": \"Student Coin\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/STC.png\",\n            \"unit_value\": 1.0728746399856917560794596598616745808385530835948884487152099609375e-7,\n            \"quantity_increment\": 1,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 8,\n            \"symbol_id\": 0,\n            \"currency_name\": \"ENJ\",\n            \"full_name\": \"Enjin Coin\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/ENJ.webp\",\n            \"unit_value\": 0.0000491743427993441931935173091171298320745108867413364350795745849609375,\n            \"quantity_increment\": 1,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 47,\n            \"symbol_id\": 0,\n            \"currency_name\": \"KNC\",\n            \"full_name\": \"Kyber Network\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/KNC.webp\",\n            \"unit_value\": 0.000026510632799646444620416904126847246203624308691360056400299072265625,\n            \"quantity_increment\": 0.01,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 21,\n            \"symbol_id\": 0,\n            \"currency_name\": \"XRP\",\n            \"full_name\": \"Ripple\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/XRP.webp\",\n            \"unit_value\": 0.000016947376799773983658456400457070767373579656123183667659759521484375,\n            \"quantity_increment\": 0.1,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 1,\n            \"symbol_id\": 0,\n            \"currency_name\": \"ZRX\",\n            \"full_name\": \"0x Protocol\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/ZRX.webp\",\n            \"unit_value\": 0.000016049375999785959721649804265997119046005536802113056182861328125,\n            \"quantity_increment\": 0.1,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 23,\n            \"symbol_id\": 0,\n            \"currency_name\": \"AAVE\",\n            \"full_name\": \"Aave\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/AAVE.webp\",\n            \"unit_value\": 0.003508538399953208863962165857397490498215120169334113597869873046875,\n            \"quantity_increment\": 0.001,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 5,\n            \"symbol_id\": 0,\n            \"currency_name\": \"XLM\",\n            \"full_name\": \"Stellar\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/XLM.webp\",\n            \"unit_value\": 0.000006636959999911487102937888982179259755866951309144496917724609375,\n            \"quantity_increment\": 0.1,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 43,\n            \"symbol_id\": 0,\n            \"currency_name\": \"YFI\",\n            \"full_name\": \"yearn.finance\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/YFI.webp\",\n            \"unit_value\": 0.4296928799942694604674787821341208626790830749087035655975341796875,\n            \"quantity_increment\": 0.000001,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 10,\n            \"symbol_id\": 0,\n            \"currency_name\": \"MKR\",\n            \"full_name\": \"Maker\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/MKR.webp\",\n            \"unit_value\": 0.04830701279935576021983792589786776972005100105889141559600830078125,\n            \"quantity_increment\": 0.0001,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 6,\n            \"symbol_id\": 0,\n            \"currency_name\": \"ZEC\",\n            \"full_name\": \"Zcash\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/ZEC.webp\",\n            \"unit_value\": 0.003179304959957599640098246940311810249113477766513824462890625,\n            \"quantity_increment\": 0.01,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 31,\n            \"symbol_id\": 0,\n            \"currency_name\": \"LRC\",\n            \"full_name\": \"Loopring\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/LRC.webp\",\n            \"unit_value\": 0.000046680756479377448561827144979385906253810389898717403411865234375,\n            \"quantity_increment\": 0.1,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 28,\n            \"symbol_id\": 0,\n            \"currency_name\": \"MATIC\",\n            \"full_name\": \"Polygon\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/MATIC.webp\",\n            \"unit_value\": 0.0000390483530394792370523440717088037299475899999379180371761322021484375,\n            \"quantity_increment\": 1,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 4,\n            \"symbol_id\": 0,\n            \"currency_name\": \"CHZ\",\n            \"full_name\": \"Chiliz\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/CHZ.webp\",\n            \"unit_value\": 0.0000057641997599231265489015565810226870979704472119919955730438232421875,\n            \"quantity_increment\": 1,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 3,\n            \"symbol_id\": 0,\n            \"currency_name\": \"BCH\",\n            \"full_name\": \"Bitcoin Cash\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/BCH.webp\",\n            \"unit_value\": 0.027741487199630029501325385356269581649257816025055944919586181640625,\n            \"quantity_increment\": 0.001,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 22,\n            \"symbol_id\": 0,\n            \"currency_name\": \"OMG\",\n            \"full_name\": \"OMG Network\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/OMG.webp\",\n            \"unit_value\": 0.00012444299999834038318008541841586112042250533704645931720733642578125,\n            \"quantity_increment\": 0.01,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 25,\n            \"symbol_id\": 0,\n            \"currency_name\": \"LTC\",\n            \"full_name\": \"Litecoin\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/LTC.webp\",\n            \"unit_value\": 0.0031728691199576854707863071691775758154108189046382904052734375,\n            \"quantity_increment\": 0.01,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 46,\n            \"symbol_id\": 0,\n            \"currency_name\": \"UNI\",\n            \"full_name\": \"Uniswap\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/UNI.webp\",\n            \"unit_value\": 0.00030903093599587865175815797925962247205688981921412050724029541015625,\n            \"quantity_increment\": 0.01,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 18,\n            \"symbol_id\": 0,\n            \"currency_name\": \"SNX\",\n            \"full_name\": \"Synthetix Network Token\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/SNX.webp\",\n            \"unit_value\": 0.000108242783998556435115187025763905381836593733169138431549072265625,\n            \"quantity_increment\": 0.01,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 42,\n            \"symbol_id\": 0,\n            \"currency_name\": \"BAL\",\n            \"full_name\": \"Balancer\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/BAL.webp\",\n            \"unit_value\": 0.00029875370399601571263815415722964186073795644915662705898284912109375,\n            \"quantity_increment\": 0.001,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 17,\n            \"symbol_id\": 0,\n            \"currency_name\": \"NMR\",\n            \"full_name\": \"Numeraire\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/NMR.webp\",\n            \"unit_value\": 0.00067696991999097168449966467618228449509842903353273868560791015625,\n            \"quantity_increment\": 0.001,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 26,\n            \"symbol_id\": 0,\n            \"currency_name\": \"BAT\",\n            \"full_name\": \"Basic Attention Token\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/BAT.webp\",\n            \"unit_value\": 0.000022195603199703991414552285699191003232044749893248081207275390625,\n            \"quantity_increment\": 0.1,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 36,\n            \"symbol_id\": 0,\n            \"currency_name\": \"BAND\",\n            \"full_name\": \"Band Protocol\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/BAND.webp\",\n            \"unit_value\": 0.00010352651999861933291628116222959921088886403595097362995147705078125,\n            \"quantity_increment\": 0.01,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 32,\n            \"symbol_id\": 0,\n            \"currency_name\": \"GRT\",\n            \"full_name\": \"The Graph\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/GRT.webp\",\n            \"unit_value\": 0.000013051682399825938046822857742379486722938963794149458408355712890625,\n            \"quantity_increment\": 0.1,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 37,\n            \"symbol_id\": 0,\n            \"currency_name\": \"SUSHI\",\n            \"full_name\": \"SushiSwap\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/SUSHI.webp\",\n            \"unit_value\": 0.0001213517855983816087324443470929491439846970024518668651580810546875,\n            \"quantity_increment\": 0.1,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 20,\n            \"symbol_id\": 0,\n            \"currency_name\": \"LINK\",\n            \"full_name\": \"Chainlink\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/LINK.webp\",\n            \"unit_value\": 0.0003869347679948396981012789276610508437670432613231241703033447265625,\n            \"quantity_increment\": 0.01,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 12,\n            \"symbol_id\": 0,\n            \"currency_name\": \"DOGE\",\n            \"full_name\": \"Dogecoin\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/DOGE.webp\",\n            \"unit_value\": 0.0000041175096479450874033253668891896293047238941653631627559661865234375,\n            \"quantity_increment\": 10,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 29,\n            \"symbol_id\": 0,\n            \"currency_name\": \"BNT\",\n            \"full_name\": \"Bancor Network\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/BNT.webp\",\n            \"unit_value\": 0.00006760648799909837544401731458665327778589926310814917087554931640625,\n            \"quantity_increment\": 0.1,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 2,\n            \"symbol_id\": 0,\n            \"currency_name\": \"SXP\",\n            \"full_name\": \"Swipe\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/SXP.webp\",\n            \"unit_value\": 0.000035855673599521815779144449931603588765938184224069118499755859375,\n            \"quantity_increment\": 0.01,\n            \"bal_inr\": null\n        },\n        {\n            \"currency_id\": 41,\n            \"symbol_id\": 0,\n            \"currency_name\": \"COMP\",\n            \"full_name\": \"Compound\",\n            \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/COMP.webp\",\n            \"unit_value\": 0.003946979999947361648338062765917211294208755134604871273040771484375,\n            \"quantity_increment\": 0.0001,\n            \"bal_inr\": null\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Crypto Trading Fee With Symbol",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/order/symbols/fee?base_currency_id=16&quote_currency_id=14&side=BUY",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"symbols",
+								"fee"
+							],
+							"query": [
+								{
+									"key": "base_currency_id",
+									"value": "16",
+									"description": "int ( all currency ids), currency id from `Ticker Data` api"
+								},
+								{
+									"key": "quote_currency_id",
+									"value": "14",
+									"description": "int ( all currency ids), currency id from `Ticker Data` api"
+								},
+								{
+									"key": "side",
+									"value": "BUY",
+									"description": "string (BUY, SELL, CONVERT)"
+								}
+							]
+						},
+						"description": "Crypto Trading fee according to currency id"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/order/symbols/fee?base_currency_id=16&quote_currency_id=14&side=BUY",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"order",
+										"symbols",
+										"fee"
+									],
+									"query": [
+										{
+											"key": "base_currency_id",
+											"value": "16",
+											"description": "currency id from `Ticker Data` api"
+										},
+										{
+											"key": "quote_currency_id",
+											"value": "14",
+											"description": "currency id from `Ticker Data` api"
+										},
+										{
+											"key": "side",
+											"value": "BUY"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"base_currency\": \"BTC\",\n        \"quote_currency\": \"USDC\",\n        \"symbol\": \"BTCUSDC\",\n        \"quantity_increment\": 0.00001,\n        \"tick_size\": 0.01,\n        \"take_rate\": 0,\n        \"make_rate\": 0.0005,\n        \"unit_price\": 46932.378591999999997568366293110297959856325178407132625579833984375,\n        \"base_balance\": 0,\n        \"quote_balance\": 0,\n        \"fee_currency\": \"USDC\",\n        \"fees\": 0,\n        \"fees_percentage\": 0.1,\n        \"qty_buffer\": 0,\n        \"side\": \"sell\",\n        \"con_rate\": 78.25,\n        \"trade_buffer\": 1.56\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Preview Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quantity\": \"0.00002\", //BigDecimal\n    \"side\": \"BUY\", //string (BUY, SELL, CONVERT)\n    \"base_currency_id\": 44, //int ( all currency ids)\n    \"quote_currency_id\": 16, //int ( all currency ids)\n    \"order_type\": \"market\" // string (limit,market)\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/order/preview-order",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"preview-order"
+							]
+						},
+						"description": "Preview of order before order execution"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "1cfb484b-20bf-4af2-88e0-7d8e086d4d7e"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"quantity\": \"0.00002\",\n    \"side\": \"BUY\",\n    \"base_currency_id\": 44,\n    \"quote_currency_id\": 16,\n    \"order_type\": \"market\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/order/preview-order",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"order",
+										"preview-order"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"exchangeRate\": 3724555.65,\n        \"limitOrderRate\": null,\n        \"amount\": 74.49,\n        \"price\": 0.00002,\n        \"fees\": 0.07449,\n        \"totalAmount\": 74.56,\n        \"precision\": 8,\n        \"side\": \"buy\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quantity\": \"0.00005\", //BigDecimal\n    \"side\": \"BUY\", //string (BUY, SELL, CONVERT)\n    \"base_currency_id\": 44, //int ( all currency ids)\n    \"quote_currency_id\": 16, //int ( all currency ids)\n    \"cus_price\": 200, //int \n    \"order_type\": \"market\" // string (limit,market)\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://3.110.83.213:8000/api/order/create-order",
+							"protocol": "http",
+							"host": [
+								"3",
+								"110",
+								"83",
+								"213"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"order",
+								"create-order"
+							]
+						},
+						"description": "Create order on behalf of user which will execute and add/deduct funds from user wallet accordingly."
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "1cfb484b-20bf-4af2-88e0-7d8e086d4d7e"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"quantity\": \"0.00005\",\n    \"side\": \"BUY\",\n    \"base_currency_id\": 44,\n    \"quote_currency_id\": 16,\n    \"cus_price\": 200,\n    \"order_type\": \"market\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/order/create-order",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"order",
+										"create-order"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"status\": \"FILLED\",\n        \"errorCode\": 0,\n        \"message\": \"Your order has been successfully completed.\",\n        \"amount\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "User Order History",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/order/history?assetName=eth&fromDate=&page=20&pageSize=200&search=bitcoin&status=&toDate=",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"history"
+							],
+							"query": [
+								{
+									"key": "assetName",
+									"value": "eth",
+									"description": "currency name"
+								},
+								{
+									"key": "fromDate",
+									"value": "",
+									"description": "Date (Ex: 2021-08-11 11:55:36.145116)"
+								},
+								{
+									"key": "page",
+									"value": "20",
+									"description": "int"
+								},
+								{
+									"key": "pageSize",
+									"value": "200",
+									"description": "int"
+								},
+								{
+									"key": "search",
+									"value": "bitcoin",
+									"description": "string"
+								},
+								{
+									"key": "status",
+									"value": "",
+									"description": "enum (COMPLETED, EXPIRED, CANCELED,FAILED)"
+								},
+								{
+									"key": "toDate",
+									"value": "",
+									"description": "Date (Ex: 2021-08-11 11:55:36.145116)"
+								}
+							]
+						},
+						"description": "Returns all orders and their details, which have been created by user so far."
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/order/history?assetName=ea mollit mi&fromDate=ea mollit mi&page=3&pageSize=10&search=BTC&sort=amount&sortOrder=desc&status=COMPLETED&toDate=ea mollit mi&totalRecords=23160118",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"order",
+										"history"
+									],
+									"query": [
+										{
+											"key": "assetName",
+											"value": "ea mollit mi"
+										},
+										{
+											"key": "fromDate",
+											"value": "ea mollit mi"
+										},
+										{
+											"key": "limit",
+											"value": "23160118",
+											"disabled": true
+										},
+										{
+											"key": "offset",
+											"value": "23160118",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "3"
+										},
+										{
+											"key": "pageSize",
+											"value": "10"
+										},
+										{
+											"key": "search",
+											"value": "BTC"
+										},
+										{
+											"key": "sort",
+											"value": "amount"
+										},
+										{
+											"key": "sortOrder",
+											"value": "desc"
+										},
+										{
+											"key": "status",
+											"value": "COMPLETED"
+										},
+										{
+											"key": "toDate",
+											"value": "ea mollit mi"
+										},
+										{
+											"key": "totalRecords",
+											"value": "23160118"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"data\": [\n            {\n                \"pair\": \"BTC/INR\",\n                \"order_time\": \"2021-12-10T09:41:16.087175\",\n                \"type\": \"buy\",\n                \"trade_id\": 741216612047,\n                \"order_id\": 741216612047,\n                \"price\": null,\n                \"amount\": null,\n                \"fees\": null,\n                \"total_cost\": null,\n                \"base_currency\": \"BTC\",\n                \"quote_currency\": \"INR\",\n                \"fee_currency\": \"INR\",\n                \"side\": \"buy\",\n                \"status\": \"COMPLETED\",\n                \"email\": \"crosstest256@load.com\",\n                \"quantity_cumulative\": 0.00005,\n                \"quantity\": null,\n                \"quantity_placed\": null,\n                \"order_type\": \"market\",\n                \"limit_price\": 48808.08,\n                \"receive\": null,\n                \"pay\": null,\n                \"fee_applicable\": null,\n                \"total_pay\": null,\n                \"conversion_rate_inr\": null,\n                \"time_in_force\": \"IOC\",\n                \"image_url\": \"/currency_image/BTC.webp\"\n            },\n            {\n                \"pair\": \"BTC/INR\",\n                \"order_time\": \"2021-12-10T09:39:36.697862\",\n                \"type\": \"buy\",\n                \"trade_id\": 741214332820,\n                \"order_id\": 741214332820,\n                \"price\": null,\n                \"amount\": null,\n                \"fees\": null,\n                \"total_cost\": null,\n                \"base_currency\": \"BTC\",\n                \"quote_currency\": \"INR\",\n                \"fee_currency\": \"INR\",\n                \"side\": \"buy\",\n                \"status\": \"COMPLETED\",\n                \"email\": \"crosstest256@load.com\",\n                \"quantity_cumulative\": 0.00013,\n                \"quantity\": null,\n                \"quantity_placed\": null,\n                \"order_type\": \"market\",\n                \"limit_price\": 48672.555,\n                \"receive\": null,\n                \"pay\": null,\n                \"fee_applicable\": null,\n                \"total_pay\": null,\n                \"conversion_rate_inr\": null,\n                \"time_in_force\": \"IOC\",\n                \"image_url\": \"/currency_image/BTC.webp\"\n            },\n            {\n                \"pair\": \"BTC/INR\",\n                \"order_time\": \"2021-12-10T07:53:01.963137\",\n                \"type\": \"buy\",\n                \"trade_id\": 741114144854,\n                \"order_id\": 741114144854,\n                \"price\": null,\n                \"amount\": null,\n                \"fees\": null,\n                \"total_cost\": null,\n                \"base_currency\": \"BTC\",\n                \"quote_currency\": \"INR\",\n                \"fee_currency\": \"INR\",\n                \"side\": \"buy\",\n                \"status\": \"COMPLETED\",\n                \"email\": \"crosstest256@load.com\",\n                \"quantity_cumulative\": 0.00002,\n                \"quantity\": null,\n                \"quantity_placed\": null,\n                \"order_type\": \"market\",\n                \"limit_price\": 48163.12,\n                \"receive\": null,\n                \"pay\": null,\n                \"fee_applicable\": null,\n                \"total_pay\": null,\n                \"conversion_rate_inr\": null,\n                \"time_in_force\": \"IOC\",\n                \"image_url\": \"/currency_image/BTC.webp\"\n            },\n            {\n                \"pair\": \"BTC/INR\",\n                \"order_time\": \"2021-12-08T17:50:31.460447\",\n                \"type\": \"buy\",\n                \"trade_id\": 739035741298,\n                \"order_id\": 739035741298,\n                \"price\": null,\n                \"amount\": null,\n                \"fees\": null,\n                \"total_cost\": null,\n                \"base_currency\": \"BTC\",\n                \"quote_currency\": \"INR\",\n                \"fee_currency\": \"INR\",\n                \"side\": \"buy\",\n                \"status\": \"COMPLETED\",\n                \"email\": \"crosstest256@load.com\",\n                \"quantity_cumulative\": 0.00005,\n                \"quantity\": null,\n                \"quantity_placed\": null,\n                \"order_type\": \"market\",\n                \"limit_price\": 50807.414,\n                \"receive\": null,\n                \"pay\": null,\n                \"fee_applicable\": null,\n                \"total_pay\": null,\n                \"conversion_rate_inr\": null,\n                \"time_in_force\": \"IOC\",\n                \"image_url\": \"/currency_image/BTC.webp\"\n            },\n            {\n                \"pair\": \"AAVE/INR\",\n                \"order_time\": \"2021-11-30T12:41:35.854227\",\n                \"type\": \"buy\",\n                \"trade_id\": 727619665842,\n                \"order_id\": 727619665842,\n                \"price\": null,\n                \"amount\": null,\n                \"fees\": null,\n                \"total_cost\": null,\n                \"base_currency\": \"AAVE\",\n                \"quote_currency\": \"INR\",\n                \"fee_currency\": \"INR\",\n                \"side\": \"buy\",\n                \"status\": \"COMPLETED\",\n                \"email\": \"crosstest256@load.com\",\n                \"quantity_cumulative\": 0.051,\n                \"quantity\": null,\n                \"quantity_placed\": null,\n                \"order_type\": \"market\",\n                \"limit_price\": 258.51395,\n                \"receive\": null,\n                \"pay\": null,\n                \"fee_applicable\": null,\n                \"total_pay\": null,\n                \"conversion_rate_inr\": null,\n                \"time_in_force\": \"IOC\",\n                \"image_url\": \"/currency_image/AAVE.webp\"\n            },\n            {\n                \"pair\": \"BAL/INR\",\n                \"order_time\": \"2021-11-30T12:37:21.848587\",\n                \"type\": \"buy\",\n                \"trade_id\": 727616306296,\n                \"order_id\": 727616306296,\n                \"price\": null,\n                \"amount\": null,\n                \"fees\": null,\n                \"total_cost\": null,\n                \"base_currency\": \"BAL\",\n                \"quote_currency\": \"INR\",\n                \"fee_currency\": \"INR\",\n                \"side\": \"buy\",\n                \"status\": \"COMPLETED\",\n                \"email\": \"crosstest256@load.com\",\n                \"quantity_cumulative\": 0.615,\n                \"quantity\": null,\n                \"quantity_placed\": null,\n                \"order_type\": \"market\",\n                \"limit_price\": 21.747421,\n                \"receive\": null,\n                \"pay\": null,\n                \"fee_applicable\": null,\n                \"total_pay\": null,\n                \"conversion_rate_inr\": null,\n                \"time_in_force\": \"IOC\",\n                \"image_url\": \"/currency_image/BAL.webp\"\n            },\n            {\n                \"pair\": \"KNC/INR\",\n                \"order_time\": \"2021-11-30T12:36:03.488133\",\n                \"type\": \"sell\",\n                \"trade_id\": 727615286155,\n                \"order_id\": 727615286155,\n                \"price\": null,\n                \"amount\": null,\n                \"fees\": null,\n                \"total_cost\": null,\n                \"base_currency\": \"INR\",\n                \"quote_currency\": \"KNC\",\n                \"fee_currency\": \"INR\",\n                \"side\": \"sell\",\n                \"status\": \"COMPLETED\",\n                \"email\": \"crosstest256@load.com\",\n                \"quantity_cumulative\": 2,\n                \"quantity\": null,\n                \"quantity_placed\": null,\n                \"order_type\": \"market\",\n                \"limit_price\": 1.9770894,\n                \"receive\": null,\n                \"pay\": null,\n                \"fee_applicable\": null,\n                \"total_pay\": null,\n                \"conversion_rate_inr\": null,\n                \"time_in_force\": \"IOC\",\n                \"image_url\": \"/currency_image/INR.png\"\n            },\n            {\n                \"pair\": \"BTC/INR\",\n                \"order_time\": \"2021-11-29T17:46:29.799106\",\n                \"type\": \"buy\",\n                \"trade_id\": 726798978898,\n                \"order_id\": 726798978898,\n                \"price\": 4429042.5,\n                \"amount\": 0.00022,\n                \"fees\": 0.9743894,\n                \"total_cost\": 975.3638,\n                \"base_currency\": \"BTC\",\n                \"quote_currency\": \"INR\",\n                \"fee_currency\": \"INR\",\n                \"side\": \"buy\",\n                \"status\": \"COMPLETED\",\n                \"email\": \"crosstest256@load.com\",\n                \"quantity_cumulative\": 0.00022,\n                \"quantity\": null,\n                \"quantity_placed\": 0.00022,\n                \"order_type\": \"market\",\n                \"limit_price\": 59330.543,\n                \"receive\": 0.00022,\n                \"pay\": 984.4361,\n                \"fee_applicable\": 0.9844361,\n                \"total_pay\": 985.42053,\n                \"conversion_rate_inr\": null,\n                \"time_in_force\": \"IOC\",\n                \"image_url\": \"/currency_image/BTC.webp\"\n            }\n        ],\n        \"page\": {\n            \"page\": 1,\n            \"pageSize\": 20,\n            \"totalRecords\": 8,\n            \"totalPage\": 1\n        }\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Wallets",
+			"item": [
+				{
+					"name": "Inr Withdraw Fee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/withdraw/inr/fee",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"withdraw",
+								"inr",
+								"fee"
+							]
+						},
+						"description": "Withdrawal fees charged from the user account at the time of INR withdrawal"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/withdraw/inr/fee",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"withdraw",
+										"inr",
+										"fee"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"platform_fee\": 10,\n        \"payout_minimal_amount\": 100,\n        \"payout_fee\": 0,\n        \"available_amount\": 0,\n        \"precision_payout\": null,\n        \"precision_transfer\": null,\n        \"min_amount\": 100,\n        \"max_amount\": 500000\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Otp On Registerd Phone Number",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/verification/otp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"verification",
+								"otp"
+							]
+						},
+						"description": "To initiate an INR withdrawal, an OTP will be sent on user's registered mobile number."
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/verification/otp",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"verification",
+										"otp"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [],
+							"cookie": [],
+							"body": "true"
+						}
+					]
+				},
+				{
+					"name": "Withdraw Inr",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": \"200\", //BigDecimal\r\n    \"otp_code\": \"112603\" // otp of send otp api\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/withdraw/inr",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"withdraw",
+								"inr"
+							]
+						},
+						"description": "INR withdrawal initiates with this API."
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": \"200\",\r\n    \"bank_id\": 1073,\r\n    \"otp_code\": \"161730\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/withdraw/inr",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"withdraw",
+										"inr"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"request_amount\": 200,\n        \"withdraw_fee\": 10,\n        \"withdraw_amount\": 190,\n        \"transaction_id\": \"01ec5cf7-5e94-1a80-beff-8eb3cefbb833\",\n        \"bankDetails\": {\n            \"id\": 16629,\n            \"account_number\": \"724201000272\",\n            \"account_type\": null,\n            \"bank_name\": \"ICICI BANK\",\n            \"default_account\": true,\n            \"account_holder_name\": \"Neha Arora\",\n            \"updated_by\": 0,\n            \"ifsc_code\": \"ICIC0007242\",\n            \"bank_image_url\": null,\n            \"status\": null,\n            \"verified\": false,\n            \"created_on\": null\n        }\n    }\n}"
+						},
+						{
+							"name": "400",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": \"200\", \r\n    \"otp_code\": \"112613\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/withdraw/inr",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"withdraw",
+										"inr"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"code\": 2014,\n    \"message\": \"OTP_VERIFICATION_FAILED\"\n}"
+						},
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": \"200\",\r\n    \"bank_id\": 1073,\r\n    \"otp_code\": \"161730\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/withdraw/inr",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"withdraw",
+										"inr"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"request_amount\": 200,\n        \"withdraw_fee\": 10,\n        \"withdraw_amount\": 190,\n        \"transaction_id\": \"01ec5cf7-5e94-1a80-beff-8eb3cefbb833\",\n        \"bankDetails\": {\n            \"id\": 16629,\n            \"account_number\": \"724201000272\",\n            \"account_type\": null,\n            \"bank_name\": \"ICICI BANK\",\n            \"default_account\": true,\n            \"account_holder_name\": \"Neha Arora\",\n            \"updated_by\": 0,\n            \"ifsc_code\": \"ICIC0007242\",\n            \"bank_image_url\": null,\n            \"status\": null,\n            \"verified\": false,\n            \"created_on\": null\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Crypto Withdraw Fee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/withdraw/crypto/fee?currency_id=47",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"withdraw",
+								"crypto",
+								"fee"
+							],
+							"query": [
+								{
+									"key": "currency_id",
+									"value": "47",
+									"description": "currency id from `Ticker Data` api"
+								}
+							]
+						},
+						"description": "Withdrawal fees charged from the user account at the time of crypto withdrawal"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/withdraw/crypto/fee?currency_id=47",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"withdraw",
+										"crypto",
+										"fee"
+									],
+									"query": [
+										{
+											"key": "currency_id",
+											"value": "47",
+											"description": "currency id from `Ticker Data` api"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"platform_fee\": 0,\n        \"payout_minimal_amount\": null,\n        \"payout_fee\": 44.143,\n        \"available_amount\": 0,\n        \"precision_payout\": 18,\n        \"precision_transfer\": 8,\n        \"min_amount\": 0,\n        \"max_amount\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Crypto Withdraw",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": 0.00005, //BigDecimal\r\n    \"currency_id\" : 14, // currency id from `Ticker Data` api\r\n    \"address\" : \"bc1qfwdkttajqqpuhfu2f5ayw4en8ac2vpg87rcj5r\", // String address set by user of same currency block chain \r\n    \"verification_code\" : 12564, // String 2fa code \r\n    \"destination_tag\" : \"\" // string\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/withdraw/crypto",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"withdraw",
+								"crypto"
+							]
+						},
+						"description": "Initiate Crypto currency withdrawal in wallet address provided by the user."
+					},
+					"response": [
+						{
+							"name": "400",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": 0.00005, // float\r\n    \"currency_id\" : 14, // Int\r\n    \"address\" : \"bc1qfwdkttajqqpuhfu2f5ayw4en8ac2vpg87rcj5r\", //string\r\n    \"verification_code\" : 12564, // 2fa code\r\n    \"destination_tag\" : \"\" //string\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/withdraw/crypto",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"withdraw",
+										"crypto"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"code\": 2020,\n    \"message\": \"2FA_NOT_ENABLED\"\n}"
+						},
+						{
+							"name": "400",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": 0.00005,\r\n    \"currency_id\" : 14, \r\n    \"address\" : \"bc1qfwdkttajqqpuhfu2f5ayw4en8ac2vpg87rcj5r\", \r\n    \"verification_code\" : 12564,\r\n    \"destination_tag\" : \"\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3004/withdraw/without2fa/crypto",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3004",
+									"path": [
+										"withdraw",
+										"without2fa",
+										"crypto"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"code\": 2020,\n    \"message\": \"Your withdrawal is disabled by admin. Please contact support.\"\n}"
+						},
+						{
+							"name": "400",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": 0.00005,\r\n    \"currency_id\" : 14, // currency id from `Ticker Data` api\r\n    \"address\" : \"bc1qfwdkttajqqpuhfu2f5ayw4en8ac2vpg87rcj5r\", \r\n    \"verification_code\" : 12564,\r\n    \"destination_tag\" : \"\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3004/withdraw/without2fa/crypto",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3004",
+									"path": [
+										"withdraw",
+										"without2fa",
+										"crypto"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"code\": 2020,\n    \"message\": \"Crypto balance in wallet is insufficient, Please try with reduced quantity.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Inr Payment Gatway list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/inr/payment-gateway",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"inr",
+								"payment-gateway"
+							]
+						},
+						"description": "List of Payment Gateway available to initiate for INR Deposit"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/inr/payment-gateway",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"inr",
+										"payment-gateway"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"id\": 3,\n            \"name\": \"Ippopay\",\n            \"description\": \"Payment will be processed via your favorite UPI ID. Limit : Depends on your bank.\",\n            \"title\": \"UPI\",\n            \"fee\": 0.006,\n            \"gst\": 1.8,\n            \"key\": \"IPPOPAY\",\n            \"payment_mode\": \"UPI\",\n            \"processing_time\": \"Upto 24 hours\",\n            \"base_fee\": null,\n            \"min_amount\": 100,\n            \"max_amount\": 100000\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Airpay\",\n            \"description\": \"Payment will be processed via your favorite UPI ID. Limit : Depends on your bank.\",\n            \"title\": \"Airpay\",\n            \"fee\": 0.3,\n            \"gst\": 18,\n            \"key\": \"AIRPAY\",\n            \"payment_mode\": \"UPI Airpay\",\n            \"processing_time\": \"Upto 24 hours\",\n            \"base_fee\": null,\n            \"min_amount\": 100,\n            \"max_amount\": 100000\n        },\n        {\n            \"id\": 1,\n            \"name\": \"Mobikwik Wallet\",\n            \"description\": \"Pay via your Mobikwik wallet. Payment will be processed immediately. Limit : No Limit. Experiencing lower success.\",\n            \"title\": \"Wallet Transfer\",\n            \"fee\": 1.6,\n            \"gst\": 18,\n            \"key\": \"MOBIKWIK\",\n            \"payment_mode\": \"Mobikwik Wallet\",\n            \"processing_time\": \"Upto 24 hours\",\n            \"base_fee\": null,\n            \"min_amount\": 100,\n            \"max_amount\": 100000\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Bank Transfer\",\n            \"description\": \"Transfer Money via NEFT/RTGS/IMPS Min: ₹1lakh; Max: ₹5lakh Fees: 0.00 Please drop a mail to depositfiat@crosstower.com for further steps\",\n            \"title\": \"Bank Transfer\",\n            \"fee\": 0,\n            \"gst\": 0,\n            \"key\": \"BANK_TRANSFER\",\n            \"payment_mode\": \"Bank Transfer\",\n            \"processing_time\": \"Upto 24 hours after you transfer\",\n            \"base_fee\": null,\n            \"min_amount\": 50000,\n            \"max_amount\": 500000\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Inr Deposit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/inr/deposit?amount=500&key=MOBIKWIK&order_id=ZPLive1639483505032",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"inr",
+								"deposit"
+							],
+							"query": [
+								{
+									"key": "amount",
+									"value": "500",
+									"description": "BigDecimal"
+								},
+								{
+									"key": "key",
+									"value": "MOBIKWIK",
+									"description": "String (Payament gateway name from gatway list api)"
+								},
+								{
+									"key": "order_id",
+									"value": "ZPLive1639483505032",
+									"description": "String"
+								}
+							]
+						},
+						"description": "Initiate INR deposit from the selected gateway, for more info, please refer to the documentation of the respective payment gateway"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/inr/deposit?amount=500&key=MOBIKWIK&order_id=ZPLive1639483505032",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"inr",
+										"deposit"
+									],
+									"query": [
+										{
+											"key": "amount",
+											"value": "500"
+										},
+										{
+											"key": "key",
+											"value": "MOBIKWIK"
+										},
+										{
+											"key": "order_id",
+											"value": "ZPLive1639483505032"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"amount\": 500,\n        \"transaction_id\": \"bd78a02e-b3c0-466b-b692-0cad9ef0725c\",\n        \"order_id\": null\n    }\n}"
+						},
+						{
+							"name": "400",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/inr/deposit?amount=500000000&key=MOBIKWIK&order_id=ZPLive163948350503",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"inr",
+										"deposit"
+									],
+									"query": [
+										{
+											"key": "amount",
+											"value": "500000000",
+											"description": "BigDecimal"
+										},
+										{
+											"key": "key",
+											"value": "MOBIKWIK",
+											"description": "String (Payament gateway name from gatway list api)"
+										},
+										{
+											"key": "order_id",
+											"value": "ZPLive163948350503",
+											"description": "String"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"code\": 2002,\n    \"message\": \"Maximum limit for deposit is 200000\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Crypto Depost address with Currency Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/crypto/deposit-address?currency_id=47",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"crypto",
+								"deposit-address"
+							],
+							"query": [
+								{
+									"key": "currency_id",
+									"value": "47",
+									"description": "currency id from `Ticker Data` api"
+								}
+							]
+						},
+						"description": "Returns \\`deposit address\\` assigned to the user for the given crypto currency, any deposits made to this deposit address will be credited to user's crypto wallet automatically."
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/crypto/deposit-address?currency_id=47",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"crypto",
+										"deposit-address"
+									],
+									"query": [
+										{
+											"key": "currency_id",
+											"value": "47",
+											"description": "currency id from `Ticker Data` api"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"address\": \"0x6f21945807822e30333660a55350a552acd333b1\",\n        \"paymentId\": null,\n        \"publicKey\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "User Deposit Withdraw Histroy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) API Key",
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/deposit-withdraw-history?assetName=eth&fromDate=&page=10&pageSize=10&search=&sort=&sortOrder=ASC&status=COMPLETED&toDate=",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"deposit-withdraw-history"
+							],
+							"query": [
+								{
+									"key": "assetName",
+									"value": "eth",
+									"description": "currency name"
+								},
+								{
+									"key": "fromDate",
+									"value": "",
+									"description": "Date (Ex: 2021-08-11 11:55:36.145116)"
+								},
+								{
+									"key": "limit",
+									"value": "20",
+									"description": "int",
+									"disabled": true
+								},
+								{
+									"key": "offset",
+									"value": "1",
+									"description": "Int",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "10",
+									"description": "Int"
+								},
+								{
+									"key": "pageSize",
+									"value": "10",
+									"description": "int"
+								},
+								{
+									"key": "search",
+									"value": "",
+									"description": "string"
+								},
+								{
+									"key": "sort",
+									"value": "",
+									"description": "enum (asc, desc)"
+								},
+								{
+									"key": "sortOrder",
+									"value": "ASC",
+									"description": "string (column name)"
+								},
+								{
+									"key": "status",
+									"value": "COMPLETED",
+									"description": "enum (CANCELLED, FAILED, REJECTED, PENDING, INTERNALLY_FAILED, COMPLETED )"
+								},
+								{
+									"key": "toDate",
+									"value": "",
+									"description": "Date (Ex: 2021-08-11 11:55:36.145116)"
+								},
+								{
+									"key": "totalRecords",
+									"value": "10",
+									"description": "int",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List of all Deposit/Withdrawal in INR or Crypto of the user"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) API Key",
+										"key": "X-CTI-APIKEY",
+										"value": "6ca1a313-fd34-483e-9e9c-56fbe2ce4b03"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://3.110.83.213:8000/api/deposit-withdraw-history?assetName=eth&fromDate=2021-12-03T15:14:45.493071&page=3&pageSize=10&search=deposit&sort=amount&sortOrder=ASC&status=COMPLETED&toDate=2021-12-03T15:14:45.493071&totalRecords=10",
+									"protocol": "http",
+									"host": [
+										"3",
+										"110",
+										"83",
+										"213"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"deposit-withdraw-history"
+									],
+									"query": [
+										{
+											"key": "assetName",
+											"value": "eth"
+										},
+										{
+											"key": "fromDate",
+											"value": "2021-12-03T15:14:45.493071"
+										},
+										{
+											"key": "limit",
+											"value": "10",
+											"disabled": true
+										},
+										{
+											"key": "offset",
+											"value": "20",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "3"
+										},
+										{
+											"key": "pageSize",
+											"value": "10"
+										},
+										{
+											"key": "search",
+											"value": "deposit"
+										},
+										{
+											"key": "sort",
+											"value": "amount"
+										},
+										{
+											"key": "sortOrder",
+											"value": "ASC"
+										},
+										{
+											"key": "status",
+											"value": "COMPLETED"
+										},
+										{
+											"key": "toDate",
+											"value": "2021-12-03T15:14:45.493071"
+										},
+										{
+											"key": "totalRecords",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"data\": [\n            {\n                \"date_and_time\": \"2021-12-03T15:14:45.493071\",\n                \"transaction_id\": \"\",\n                \"transaction_type\": \"DEPOSIT\",\n                \"reference_id\": \"\",\n                \"asset_name\": \"BTC\",\n                \"full_name\": \"Bitcoin\",\n                \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/BTC.webp\",\n                \"amount\": 0.00010801,\n                \"transaction_hash\": null,\n                \"status\": \"COMPLETED\",\n                \"pg_name\": null,\n                \"payment_mode\": null,\n                \"old_rate\": null\n            }\n        ],\n        \"page\": {\n            \"page\": 1,\n            \"pageSize\": 20,\n            \"totalRecords\": 1,\n            \"totalPage\": 1\n        }\n    }\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "X-CTI-APIKEY",
+			"value": "1cfb484b-20bf-4af2-88e0-7d8e086d4d7e"
+		}
+	]
+}
