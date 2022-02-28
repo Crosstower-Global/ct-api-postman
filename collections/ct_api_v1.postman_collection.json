@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "4cdfd03c-cd22-457d-be95-4d3eb7e422d4",
-		"name": "CTI APIs",
+		"name": "CT APIs",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -136,7 +136,7 @@
 								"user-check"
 							]
 						},
-						"description": "To check if user is already registered with CTI or not, to decide if you need to register this user with us or just need login."
+						"description": "To check if user is already registered with CT or not, to decide if you need to register this user with us or just need login."
 					},
 					"response": [
 						{
@@ -314,7 +314,7 @@
 								"register"
 							]
 						},
-						"description": "Register user with CTI using Email and Phone number"
+						"description": "Register user with CT using Email and Phone number"
 					},
 					"response": [
 						{
@@ -480,7 +480,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"user@domain.com\"\r\n}",
+							"raw": "{\r\n    \"email\": \"janruls1@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1642,7 +1642,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"quantity\": \"0.00002\", //BigDecimal\n    \"side\": \"BUY\", //string (BUY, SELL, CONVERT)\n    \"base_currency_id\": 44, //int ( all currency ids)\n    \"quote_currency_id\": 16, //int ( all currency ids)\n    \"order_type\": \"market\" // string (limit,market)\n}",
+							"raw": "{\n    \"quantity\": \"0.00002\",\n    \"side\": \"BUY\",\n    \"base_currency_id\": 44,\n    \"quote_currency_id\": 16,\n    \"order_type\": \"market\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1750,7 +1750,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"quantity\": \"0.00005\", //BigDecimal\n    \"side\": \"BUY\", //string (BUY, SELL, CONVERT)\n    \"base_currency_id\": 44, //int ( all currency ids)\n    \"quote_currency_id\": 16, //int ( all currency ids)\n    \"cus_price\": 200, //int \n    \"order_type\": \"market\" // string (limit,market)\n}",
+							"raw": "{\n    \"quantity\": \"0.00005\",\n    \"side\": \"BUY\",\n    \"base_currency_id\": 44,\n    \"quote_currency_id\": 16,\n    \"cus_price\": 200,\n    \"order_type\": \"market\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1758,15 +1758,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://3.110.83.213:8000/api/order/create-order",
-							"protocol": "http",
+							"raw": "{{base_url}}/api/order/create-order",
 							"host": [
-								"3",
-								"110",
-								"83",
-								"213"
+								"{{base_url}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"order",
@@ -1900,7 +1895,7 @@
 								{
 									"key": "status",
 									"value": "",
-									"description": "enum (COMPLETED, EXPIRED, CANCELED,FAILED)"
+									"description": "enum (COMPLETED, EXPIRED, CANCELED,FAILED, OPEN)"
 								},
 								{
 									"key": "toDate",
@@ -2229,7 +2224,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"amount\": \"200\", //BigDecimal\r\n    \"otp_code\": \"112603\" // otp of send otp api\r\n}",
+							"raw": "{\r\n    \"amount\": \"200\",\r\n    \"otp_code\": \"112603\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2544,7 +2539,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"amount\": 0.00005, //BigDecimal\r\n    \"currency_id\" : 14, // currency id from `Ticker Data` api\r\n    \"address\" : \"bc1qfwdkttajqqpuhfu2f5ayw4en8ac2vpg87rcj5r\", // String address set by user of same currency block chain \r\n    \"verification_code\" : 12564, // String 2fa code \r\n    \"destination_tag\" : \"\" // string\r\n}",
+							"raw": "{\r\n    \"amount\": 0.00005,\r\n    \"currency_id\" : 14,\r\n    \"address\" : \"bc1qfwdkttajqqpuhfu2f5ayw4en8ac2vpg87rcj5r\",\r\n    \"verification_code\" : 12564,\r\n    \"destination_tag\" : \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3295,6 +3290,313 @@
 							"body": "{\n    \"data\": {\n        \"data\": [\n            {\n                \"date_and_time\": \"2021-12-03T15:14:45.493071\",\n                \"transaction_id\": \"\",\n                \"transaction_type\": \"DEPOSIT\",\n                \"reference_id\": \"\",\n                \"asset_name\": \"BTC\",\n                \"full_name\": \"Bitcoin\",\n                \"image_url\": \"https://crosstower-india-uat.s3.ap-south-1.amazonaws.com/currency_image/BTC.webp\",\n                \"amount\": 0.00010801,\n                \"transaction_hash\": null,\n                \"status\": \"COMPLETED\",\n                \"pg_name\": null,\n                \"payment_mode\": null,\n                \"old_rate\": null\n            }\n        ],\n        \"page\": {\n            \"page\": 1,\n            \"pageSize\": 20,\n            \"totalRecords\": 1,\n            \"totalPage\": 1\n        }\n    }\n}"
 						}
 					]
+				},
+				{
+					"name": "Initiate UPI Deposit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"upi_id\": \"janruls1@ybl\",\n    \"amount\": 1000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/inr/deposit/initiate-payment",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"inr",
+								"deposit",
+								"initiate-payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Track UPI Deposit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/inr/deposit/track-payment?order_id=01ec98cb-7ae3-1b33-a421-43f21ea145da",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"inr",
+								"deposit",
+								"track-payment"
+							],
+							"query": [
+								{
+									"key": "order_id",
+									"value": "01ec98cb-7ae3-1b33-a421-43f21ea145da"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Track UPI Deposit Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/inr/deposit/track-payment?order_id=01ec98cb-7ae3-1b33-a421-43f21ea145da",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"inr",
+								"deposit",
+								"track-payment"
+							],
+							"query": [
+								{
+									"key": "order_id",
+									"value": "01ec98cb-7ae3-1b33-a421-43f21ea145da"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Gift Crypto",
+			"item": [
+				{
+					"name": "Create Gift Code",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"currency_id\": 16,\n    \"message\": \"Happy Birthday!\",\n    \"amount\": \"0.00001\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/gift/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"gift",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Redeem Gift Code",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"gift_code\": \"test\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/gift/redeem",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"gift",
+								"redeem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Gift History",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-CTI-APIKEY",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/gift/list",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"gift",
+								"list"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
