@@ -18,7 +18,7 @@ You only need to import and set up with your own API and secret keys to begin.
 - Select which collections and environments you would like to import and click the `Import` button.
    <p align="center"><img src="assets/3.png" alt="Screenshot of of Postman for Mac, showing the Import screen after selecting the folder."/></p>
 
-- Select the `Environments` tab on the left, choose an environment, and set your Api Key and Secret Key by changing the `Current Value` column (see screenshot);
+- Select the `Environments` tab on the left, choose an environment, and set your Api Key and Api Secret by changing the `Current Value` column (see screenshot);
 (The `checksum` field can be left empty as it’ll be automatically filled by Postman when sending a request.)
     <p align="center"><img src="assets/4.png" alt="Screenshot of Postman for Mac, showing where the user should fill in their API and secret keys."/></p>
 
@@ -48,7 +48,7 @@ You haven't imported the environment file or you've imported it but haven't sele
 Likely causes:
 - API key is not set.
 - API key is not correct.
-- `Authorization` is not selected in your Postman `Headers` tab.
+- `X-CTI-APIKEY` is not selected in your Postman `Headers` tab.
 
 **Q:** Error `Invalid checksum`
 
