@@ -3342,7 +3342,8 @@
 								"deposit",
 								"initiate-payment"
 							]
-						}
+						},
+						"description": "Send a deposit request to the provided upi_id\n\n*   Deposit request will be valid only for 10 mins, if user makes payment after that, we may not detect and credit it in user's account."
 					},
 					"response": []
 				},
@@ -3394,7 +3395,8 @@
 									"value": "01ec98cb-7ae3-1b33-a421-43f21ea145da"
 								}
 							]
-						}
+						},
+						"description": "Track if users has completed upi deposit request.\n\n*   Only works for 10 mins after initiating payment request, if in 10 mins user has not completed payment then this will return status as 'FAILED'"
 					},
 					"response": []
 				},
@@ -3500,7 +3502,8 @@
 								"gift",
 								"create"
 							]
-						}
+						},
+						"description": "Create new gift card.\n\n| **Param** | **Type** | **Required** | **Description** |\n| --- | --- | --- | --- |\n| currency_id | int | Yes | Crypto Currency which redeemer will receive. |\n| message | String | Yes | Message attached with the gift coupon. |\n| amount | int | Yes | INR amount of the gift coupon |"
 					},
 					"response": []
 				},
@@ -3549,7 +3552,8 @@
 								"gift",
 								"redeem"
 							]
-						}
+						},
+						"description": "Redeem a gift code"
 					},
 					"response": []
 				},
@@ -3594,7 +3598,8 @@
 								"gift",
 								"list"
 							]
-						}
+						},
+						"description": "List history of redeemed and created gifts"
 					},
 					"response": []
 				}
@@ -3654,7 +3659,8 @@
 									"value": "20"
 								}
 							]
-						}
+						},
+						"description": "List of default baskets provided by crosstower out of the box."
 					},
 					"response": []
 				},
@@ -3711,7 +3717,8 @@
 									"value": "20"
 								}
 							]
-						}
+						},
+						"description": "List user created baskets."
 					},
 					"response": []
 				},
@@ -3759,7 +3766,8 @@
 								"order-bucket",
 								"size"
 							]
-						}
+						},
+						"description": "Retrieve basic validation list for creating new baskets."
 					},
 					"response": []
 				},
@@ -3799,7 +3807,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"bucket_name\": \"Test basket 2\",\n    \"total_amount\": \"1000\",\n    \"asset_list\": [\n        {\n            \"currency_id\": 30,\n            \"percentage\": 86,\n            \"amount\": 619,\n            \"quantity\": 5.3,\n            \"allocation\": 61.8705035971223\n        },\n        {\n            \"currency_id\": 42,\n            \"percentage\": 53,\n            \"amount\": 381,\n            \"quantity\": 0.371,\n            \"allocation\": 38.1294964028777\n        }\n    ]\n}",
+							"raw": "{\n    \"bucket_name\": \"Test basket 20\",\n    \"total_amount\": \"1000\",\n    \"asset_list\": [\n        {\n            \"currency_id\": 30,\n            \"amount\": 619,\n            \"quantity\": 5.3,\n            \"allocation\": 61.8705035971223\n        },\n        {\n            \"currency_id\": 42,\n            \"amount\": 381,\n            \"quantity\": 0.371,\n            \"allocation\": 38.1294964028777\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3815,7 +3823,8 @@
 								"api",
 								"order-bucket"
 							]
-						}
+						},
+						"description": "Create new basket\n\n| **Param** | **Type** | **Required** | **Description** |\n| --- | --- | --- | --- |\n| bucket_name | string | Yes | Name of the basket |\n| total_amount | int | No | sum of INR value of all assets in the basket as per their allocation and current rate |\n| asset_list | array | Yes |  |\n| asset_list.currency_id | int | Yes |  |\n| allocation | int | Yes | Percent allocation of asset in the basket |\n| asset_list.amount | int | No | INR amount of the asset proportionally as per it's allocation. |\n| asset_list.quantity | int | No | Quantity of asset proportionally as per it's allocation and current rate |"
 					},
 					"response": []
 				},
@@ -3855,7 +3864,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"bucket_id\": 97,\n    \"bucket_name\": \"Test basket\",\n    \"total_amount\": 10000,\n    \"asset_list\": [\n        {\n            \"currency_id\": 42,\n            \"amount\": 3839,\n            \"quantity\": 3.765,\n            \"allocation\": 38.38383838383838,\n            \"percentage\": 38\n        },\n        {\n            \"currency_id\": 30,\n            \"amount\": 6161,\n            \"quantity\": 53.4,\n            \"allocation\": 61.61616161616162,\n            \"percentage\": 61\n        }\n    ]\n}",
+							"raw": "{\n    \"bucket_id\": 97,\n    \"bucket_name\": \"Test basket\",\n    \"total_amount\": 10000,\n    \"asset_list\": [\n        {\n            \"currency_id\": 42,\n            \"amount\": 3839,\n            \"quantity\": 3.765,\n            \"allocation\": 38.38383838383838\n        },\n        {\n            \"currency_id\": 30,\n            \"amount\": 6161,\n            \"quantity\": 53.4,\n            \"allocation\": 61.61616161616162\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3871,7 +3880,8 @@
 								"api",
 								"order-bucket"
 							]
-						}
+						},
+						"description": "Update user basket.\n\n| **Param** | **Type** | **Required** | **Description** |\n| --- | --- | --- | --- |\n| bucket_id | int | Yes | Id of the basket |\n| bucket_name | string | Yes | Name of the basket |\n| total_amount | int | No | sum of INR value of all assets in the basket as per their allocation and current rate |\n| asset_list | array | Yes |  |\n| asset_list.currency_id | int | Yes |  |\n| allocation | int | Yes | Percent allocation of asset in the basket |\n| asset_list.amount | int | No | INR amount of the asset proportionally as per it's allocation. |\n| asset_list.quantity | int | No | Quantity of asset proportionally as per it's allocation and current rate |"
 					},
 					"response": []
 				},
@@ -3929,7 +3939,8 @@
 									"value": "20"
 								}
 							]
-						}
+						},
+						"description": "List basket order history of the user."
 					},
 					"response": []
 				},
@@ -3983,7 +3994,8 @@
 									"value": "16"
 								}
 							]
-						}
+						},
+						"description": "Helper API call to fetch single currency details."
 					},
 					"response": []
 				},
@@ -4035,7 +4047,8 @@
 								"order-bucket",
 								"execute"
 							]
-						}
+						},
+						"description": "Save and execute a basket order."
 					},
 					"response": []
 				}
