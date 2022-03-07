@@ -136,7 +136,7 @@
 								"user-check"
 							]
 						},
-						"description": "To check if user is already registered with CT or not, to decide if you need to register this user with us or just need login."
+						"description": "To check if user is already registered with CT or not, to decide if you need to register this user with us or just need login.\n\n| **Param** | **Type** | **Required** | **Description** |\n| --- | --- | --- | --- |\n| email | string | Yes | Email of the user |"
 					},
 					"response": [
 						{
@@ -174,9 +174,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{base_url}}/api/user-check",
+									"raw": "http://proxy-api.eba-m6vhxmyz.ap-south-1.elasticbeanstalk.com/api/user-check",
+									"protocol": "http",
 									"host": [
-										"{{base_url}}"
+										"proxy-api",
+										"eba-m6vhxmyz",
+										"ap-south-1",
+										"elasticbeanstalk",
+										"com"
 									],
 									"path": [
 										"api",
@@ -314,7 +319,7 @@
 								"register"
 							]
 						},
-						"description": "Register user with CT using Email and Phone number"
+						"description": "Register user with CT using Email and Phone number\n\n| **Param** | **Type** | **Required** | **Description** |\n| --- | --- | --- | --- |\n| email | string | Yes | Email of the user |\n| mobile_number | string | Yes | Mobile number of the user |\n| first_name | string | Yes |  |\n| last_name | string | Yes |  |"
 					},
 					"response": [
 						{
@@ -498,7 +503,7 @@
 								"create-token"
 							]
 						},
-						"description": "Generate Auth Token for a registered user on CTI, for further calls"
+						"description": "Generate Auth Token for a registered user on CTI, for further calls\n\n| **Param** | **Type** | **Required** | **Description** |\n| --- | --- | --- | --- |\n| email | string | Yes |  |"
 					},
 					"response": [
 						{
@@ -738,7 +743,7 @@
 								"add"
 							]
 						},
-						"description": "Add Verified bank account details of user"
+						"description": "Add Verified bank account details of user\n\n| **Param** | **Type** | **Required** | **Description** |\n| --- | --- | --- | --- |\n| accountHolderName | string | Yes | Name as per Bank Account |\n| bankName | string | Yes |  |\n| accountNumber | string | Yes | Bank account Number |\n| ifscCode | string | Yes | 11 Character IFSC Code |\n| accountType | enum | No | one of `SAVINGS` , `CURRENT` |\n| mobileNumber | string | No | Mobile number attached with provided bank account |\n| email | string | Yes | email of the user with which this Bank Account will be added |"
 					},
 					"response": [
 						{
@@ -749,7 +754,7 @@
 									{
 										"description": "(Required) API Key",
 										"key": "X-CTI-APIKEY",
-										"value": "{{X-CTI-APIKEY}}"
+										"value": "1cfb484b-20bf-4af2-88e0-7d8e086d4d7e"
 									},
 									{
 										"key": "Content-Type",
@@ -777,9 +782,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{base_url}}/api/bank/add",
+									"raw": "http://proxy-api.eba-m6vhxmyz.ap-south-1.elasticbeanstalk.com/api/bank/add",
+									"protocol": "http",
 									"host": [
-										"{{base_url}}"
+										"proxy-api",
+										"eba-m6vhxmyz",
+										"ap-south-1",
+										"elasticbeanstalk",
+										"com"
 									],
 									"path": [
 										"api",
@@ -967,7 +977,7 @@
 								"add"
 							]
 						},
-						"description": "Add kyc Details of User"
+						"description": "Add kyc Details of User\n\n| **Param** | **Type** | **Required** | **Description** |\n| --- | --- | --- | --- |\n| poi | Object | Yes | Proof Of Identity (Pan Card) Information |\n| poi.name | string | Yes | Name on PanCard |\n| poi.dob | string | Yes | DOB on PanCard |\n| poi.panCardNumber | string | Yes |  |\n| poi.panCardImageUrl | string | Yes | Accessible URL of the PAN Card Image |\n| poa | Object | Yes | Proof of Address (Adhaar Card, VoterId Card, Driving License or Passport) Information |\n| poa.poaType | enum | Yes | One of `Aadhaar Card` , `Driving Licence` , `Voter Id` , `Passport` |\n| poa.poaNumber | string | Yes | Number of the proof, for example, Adhaar Number for the case of Adhaar Card |\n| poa.address | string | Yes | Address mentioned on POA |\n| poa.pincode | string | Yes |  |\n| poa.gender | enum | Yes | One of `MALE` , `FEMALE` , `TRANSGENDER` |\n| poa.poaFrontImageUrl | string | Yes | Accessible URL of front image of POA proof |\n| poa.poaBackImageUrl | string | Yes | Accessible URL of back image of POA proof |\n| selfie | Object | Yes | User's selfie |\n| selfie.selfieImageUrl | string | Yes | Accessible URL of User's selfie |\n| email | string | Yes | email of the user with which this KYC Details will be added |"
 					},
 					"response": [
 						{
@@ -1660,7 +1670,7 @@
 								"preview-order"
 							]
 						},
-						"description": "Preview of order before order execution"
+						"description": "Preview of order before order execution\n\n| **Param** | **Type** | **Required** | **Description** |\n| --- | --- | --- | --- |\n| quantity | double | Yes | Quantity in base currency |\n| side | enum | Yes | One of `BUY` , `SELL` , `CONVERT` |\n| base_currency_id | int | Yes |  |\n| quote_currency_id | int | Yes |  |\n| order_type | enum | Yes | One of l`imit` , `market` |"
 					},
 					"response": [
 						{
@@ -1768,7 +1778,7 @@
 								"create-order"
 							]
 						},
-						"description": "Create order on behalf of user which will execute and add/deduct funds from user wallet accordingly."
+						"description": "Create order on behalf of user which will execute and add/deduct funds from user wallet accordingly.\n\n| **Param** | **Type** | **Required** | **Description** |\n| --- | --- | --- | --- |\n| quantity | double | Yes | Quantity in base currency |\n| side | enum | Yes | One of `BUY` , `SELL` , `CONVERT` |\n| base_currency_id | int | Yes |  |\n| quote_currency_id | int | Yes |  |\n| cus_price | double | Yes | Maximum quote currency amount to invest in case of `BUY` Or Minimum quote currency to receive in case of `SELL` |\n| order_type | enum | Yes | One of `limit` , `market` |"
 					},
 					"response": [
 						{
@@ -2242,7 +2252,7 @@
 								"inr"
 							]
 						},
-						"description": "INR withdrawal initiates with this API."
+						"description": "INR withdrawal initiates with this API.\n\n| **Param** | **Type** | **Required** | **Description** |\n| --- | --- | --- | --- |\n| amount | double | Yes | INR amount to withdraw |\n| otp_code | string | Yes | 6 Digit OTP sent to user's mobile number by calling `/verification/otp` API |"
 					},
 					"response": [
 						{
@@ -2539,7 +2549,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"amount\": 0.00005,\r\n    \"currency_id\" : 14,\r\n    \"address\" : \"bc1qfwdkttajqqpuhfu2f5ayw4en8ac2vpg87rcj5r\",\r\n    \"verification_code\" : 12564,\r\n    \"destination_tag\" : \"\"\r\n}",
+							"raw": "{\r\n    \"amount\": 0.00005,\r\n    \"currency_id\" : 14,\r\n    \"address\" : \"bc1qfwdkttajqqpuhfu2f5ayw4en8ac2vpg87rcj5r\",\r\n    \"destination_tag\" : \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2557,7 +2567,7 @@
 								"crypto"
 							]
 						},
-						"description": "Initiate Crypto currency withdrawal in wallet address provided by the user."
+						"description": "Initiate Crypto currency withdrawal in wallet address provided by the user.\n\n| **Param** | **Type** | **Required** | **Description** |\n| --- | --- | --- | --- |\n| amount | double | Yes | Crypto amount to withdraw |\n| currency_id | int | Yes | Currency ID to withdraw |\n| address | string | Yes | Address to withdraw crypto to |\n| destination_tag | string | No | Applies only for certain currencies like `XRP` , `XLM` |"
 					},
 					"response": [
 						{
@@ -3343,7 +3353,7 @@
 								"initiate-payment"
 							]
 						},
-						"description": "Send a deposit request to the provided upi_id\n\n*   Deposit request will be valid only for 10 mins, if user makes payment after that, we may not detect and credit it in user's account."
+						"description": "Send a deposit request to the provided upi_id\n\n*   Deposit request will be valid only for 10 mins, if user makes payment after that, we may not detect and credit it in user's account.\n    \n\n| **Param** | **Type** | **Required** | **Description** |\n| --- | --- | --- | --- |\n| upi_id | string | Yes | UPI Id of the user to which deposit request will be sent |\n| amount | double | Yes | Deposit amount |"
 					},
 					"response": []
 				},
